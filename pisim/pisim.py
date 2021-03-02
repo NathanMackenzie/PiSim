@@ -1,8 +1,6 @@
 # pisim.py
 __version__ = '0.1.0'
 
-import math
-import random
 import helpers as hp
 
 radius = 1
