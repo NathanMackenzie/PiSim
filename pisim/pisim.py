@@ -1,8 +1,10 @@
 # pisim.py
-__version__ = '0.4.0'
+__version__ = '0.5.0'
+
 from tkinter import *
 from matplotlib.figure import Figure 
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  NavigationToolbar2Tk)
+import numpy as np
 import helpers as hp
 
 class PiSim:
@@ -12,24 +14,17 @@ class PiSim:
         self.window = Tk()
         self.window.title("Monte Carlo Pi Simulation")
         self.window.geometry("500x550")
-
         # Add plot to window
         self.add_plot()
-
-        # Add start button
-        # button that displays the plot 
+        # Add start button 
         plot_button = Button(master = self.window, command = self.run_sim, height = 2, width = 10, text = "Run") 
         plot_button.pack()
-
         # create a StringVar class 
         self.my_string_var = StringVar() 
-  
-        # set the text 
-        self.my_string_var.set("What should I learn") 
+        # set the text  
   
         # create a label widget 
-        self.my_label = Label(self.window,  
-                 textvariable = self.my_string_var) 
+        self.my_label = Label(self.window, textvariable = self.my_string_var) 
         self.my_label.pack()
         # Show window
         self.window.mainloop()
@@ -44,18 +39,25 @@ class PiSim:
   
         # adding the subplot 
         self.plt = fig.add_subplot(111) 
-        self.plt.axis([-1.2, 1.2, -1.2, 1.2])
-        #.ion() # turn interactive mode on
-        self.animated_plot = self.plt.plot(self.x_coords, self.y_coords, 'ro')[0]
+        self.plt.axis([-1, 1, -1, 1])
+        
+        theta = np.linspace( 0 , 2 * np.pi , 150 ) 
+  
+        radius = 1
+  
+        a = radius * np.cos( theta ) 
+        b = radius * np.sin( theta ) 
+        
+        
+
+        self.animated_plot = self.plt.plot(self.x_coords, self.y_coords, 'bo')[0]
+        
+        self.plt.plot( a, b ) 
 
         self.x_coords.append(.1)
         self.y_coords.append(.1)
 
-        
-
-
-        # creating the Tkinter canvas 
-        # containing the Matplotlib figure 
+        # creating the Tkinter canvas containing the Matplotlib figure 
         self.canvas = FigureCanvasTkAgg(fig, master = self.window)   
         self.canvas.draw() 
   
@@ -69,7 +71,7 @@ class PiSim:
         n = 0
 
         # Perform monte carlo simulation
-        for i in range(500):
+        for i in range(50):
             n = i # number of iterations
 
             # get random point coordinates
@@ -83,25 +85,17 @@ class PiSim:
             self.animated_plot.set_ydata(self.y_coords[0:i])
             self.canvas.draw()
             
-    
             # calculate points distances from origin
             dist = hp.pythag(x, y)
 
             # check if point is witin the circle
             if dist <= 1:
                  in_count += 1
-                 
+
             if n > 0:
-                self.my_string_var.set(hp.monte_carlo_sim(1, in_count, n))
-
-        print("The estimated value of pi is...")
-        print(hp.monte_carlo_sim(1, in_count, n))
-
-        
-        
-
-        
-        
+                temp = "Pi: {:.5f}"
+                self.my_string_var.set(temp.format(hp.monte_carlo_sim(1, in_count, n)))
+                
 #-----------------------------------------------
 # Main Code
 #-----------------------------------------------
