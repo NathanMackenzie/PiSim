@@ -21,6 +21,16 @@ class PiSim:
         plot_button = Button(master = self.window, command = self.run_sim, height = 2, width = 10, text = "Run") 
         plot_button.pack()
 
+        # create a StringVar class 
+        self.my_string_var = StringVar() 
+  
+        # set the text 
+        self.my_string_var.set("What should I learn") 
+  
+        # create a label widget 
+        self.my_label = Label(self.window,  
+                 textvariable = self.my_string_var) 
+        self.my_label.pack()
         # Show window
         self.window.mainloop()
 
@@ -80,6 +90,9 @@ class PiSim:
             # check if point is witin the circle
             if dist <= 1:
                  in_count += 1
+                 
+            if n > 0:
+                self.my_string_var.set(hp.monte_carlo_sim(1, in_count, n))
 
         print("The estimated value of pi is...")
         print(hp.monte_carlo_sim(1, in_count, n))
