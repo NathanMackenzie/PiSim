@@ -8,4 +8,4 @@ PiSim is a simple python program to calculate the estimated value of pi. It uses
 
 ## Licence
 
-PiSim is [MIT licenced](license.txt)
+PiSim is [MIT licenced](LICENSE)
