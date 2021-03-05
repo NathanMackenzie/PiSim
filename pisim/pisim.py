@@ -4,6 +4,7 @@ __version__ = '0.5.0'
 from tkinter import *
 from matplotlib.figure import Figure 
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,  NavigationToolbar2Tk)
+
 import numpy as np
 import helpers as hp
 
@@ -18,14 +19,13 @@ class PiSim:
         self.add_plot()
         # Add start button 
         plot_button = Button(master = self.window, command = self.run_sim, height = 2, width = 10, text = "Run") 
-        plot_button.pack()
+        plot_button.pack(padx=5, pady=10, side = LEFT)
         # create a StringVar class 
         self.my_string_var = StringVar() 
-        # set the text  
   
         # create a label widget 
-        self.my_label = Label(self.window, textvariable = self.my_string_var) 
-        self.my_label.pack()
+        self.my_label = Label(self.window, textvariable = self.my_string_var, font=("Arial", 24)) 
+        self.my_label.pack(side = LEFT)
         # Show window
         self.window.mainloop()
 
@@ -54,9 +54,6 @@ class PiSim:
         
         self.plt.plot( a, b ) 
 
-        self.x_coords.append(.1)
-        self.y_coords.append(.1)
-
         # creating the Tkinter canvas containing the Matplotlib figure 
         self.canvas = FigureCanvasTkAgg(fig, master = self.window)   
         self.canvas.draw() 
@@ -71,7 +68,7 @@ class PiSim:
         n = 0
 
         # Perform monte carlo simulation
-        for i in range(50):
+        for i in range(1000):
             n = i # number of iterations
 
             # get random point coordinates
@@ -95,6 +92,9 @@ class PiSim:
             if n > 0:
                 temp = "Pi: {:.5f}"
                 self.my_string_var.set(temp.format(hp.monte_carlo_sim(1, in_count, n)))
+            self.window.after(50)
+
+            
                 
 #-----------------------------------------------
 # Main Code
